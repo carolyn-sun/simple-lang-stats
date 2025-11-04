@@ -49,6 +49,8 @@ interface WorkerEnv {
   ENABLE_PRIVATE_ACCESS?: string;
 }
 
+import { getStyleConfig, generateLanguageColors, isValidStyle } from './style-helper';
+
 /**
  * Calculate precise percentages ensuring they sum close to 100%
  * Based on GitHub's algorithm for language statistics
@@ -92,7 +94,7 @@ function calculateLanguagePercentages(languageStats: LanguageStats, totalSize: n
   }
   
   return roundedData
-    .filter(item => item.rounded > 0) // 过滤掉百分比为0的条目
+    .filter(item => item.rounded > 0) // Filter out entries with 0% percentage
     .map(item => ({
       language: item.language,
       size: item.size,
@@ -192,7 +194,7 @@ async function fetchTopLanguages(
         const langName = edge.node.name;
         const langSize = edge.size;
 
-        // 忽略大小为0的语言条目
+        // Ignore language entries with size 0
         if (langSize <= 0) {
           return;
         }
@@ -223,7 +225,7 @@ async function fetchTopLanguages(
     }
   });
 
-  // 过滤掉权重计算后大小为0或接近0的语言条目
+  // Filter out language entries with size 0 or close to 0 after weight calculation
   const filteredLanguageStats: LanguageStats = {};
   Object.keys(languageStats).forEach((name) => {
     const lang = languageStats[name];
@@ -253,7 +255,7 @@ export default {
       return new Response(
         `Simple Language Stats
 
-Usage: /{username}?night=true
+Usage: /{username}?night=true&style=styleName
 
 Returns 3-column layout:
 Language1 X%  Language2 Y%  Language3 Z%
@@ -262,8 +264,17 @@ Language4 A%  Language5 B%  Language6 C%
 Examples: 
   /octocat (light mode, auto dark mode support)
   /octocat?night=true (force dark mode)
+  /octocat?style=ocean (ocean theme colors)
+  /octocat?night=true&style=sunset (dark mode with sunset colors)
+  /octocat?style=duo (2-color cycle theme)
+  /octocat?style=trio (3-color cycle theme)
+  /octocat?style=pride (6-color Pride rainbow flag)
+  /octocat?style=transgender (5-color transgender flag)
 
-Note: For higher rate limits, configure a GitHub token in your environment.
+Available styles: default, github, ocean, sunset, forest, midnight, rainbow, 
+pastel, tech, nature, monochrome, warm, cool, vintage, neon, earth, duo, trio, quad, penta, hex, pride, transgender
+
+Note: Colors cycle by row - same row uses same color. For higher rate limits, configure a GitHub token in your environment.
 Without a token, you may encounter rate limit errors after several requests.`,
         { 
           status: 200, 
@@ -279,6 +290,7 @@ Without a token, you may encounter rate limit errors after several requests.`,
 
     // Parse URL parameters
     const nightMode = url.searchParams.get('night') === 'true';
+    const styleName = url.searchParams.get('style') || undefined;
 
     // Check user-provided GitHub Token (for accessing private repositories)
     // Token requirements:
@@ -376,10 +388,14 @@ Without a token, you may encounter rate limit errors after several requests.`,
 
       const displayName = user.name || user.login;
 
-      // Generate SVG with 3-column layout (统一布局，只有颜色不同)
-      const svgWidth = 600; // 进一步增加宽度，给每列更多空间
+      // Generate SVG with 3-column layout
+      const svgWidth = 600; // Further increase width, giving each column more space
       const svgHeight = Math.max(100, Math.ceil(languageData.length / 3) * 20 + 60);
       const colWidth = svgWidth / 3;
+      
+      // Get style configuration
+      const styleConfig = getStyleConfig(styleName);
+      const languageColors = generateLanguageColors(styleName, languageData.length);
       
       // Choose colors based on night mode parameter
       const colors = nightMode ? {
@@ -392,11 +408,10 @@ Without a token, you may encounter rate limit errors after several requests.`,
         footer: '#656d76'
       };
       
-      let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
-<svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">
-  <style>
-    <![CDATA[
-    .title { 
+      // If a custom style is provided, override lang color with style colors
+      const useCustomColors = styleName && isValidStyle(styleName);
+      
+      let styleContent = `    .title { 
       font: bold 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
       fill: ${colors.title}; 
     }
@@ -407,7 +422,27 @@ Without a token, you may encounter rate limit errors after several requests.`,
     .footer { 
       font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
       fill: ${colors.footer}; 
-    }
+    }`;
+
+      // Add individual color classes for custom styles (one color per row)
+      if (useCustomColors) {
+        const totalRows = Math.ceil(languageData.length / 3);
+        for (let row = 0; row < totalRows; row++) {
+          const colorIndex = row % styleConfig.colors.length;
+          const color = styleConfig.colors[colorIndex];
+          styleContent += `
+    .lang-row-${row} { 
+      font: 14px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; 
+      fill: ${color}; 
+    }`;
+        }
+      }
+
+      let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    <![CDATA[
+${styleContent}
     ${!nightMode ? `
     @media (prefers-color-scheme: dark) {
       .title { fill: #f0f6fc; }
@@ -426,11 +461,14 @@ Without a token, you may encounter rate limit errors after several requests.`,
         const col = index % 3;
         const row = Math.floor(index / 3);
         const x = col * colWidth;
-        const y = 40 + row * 20; // 统一行高为20px
+        const y = 40 + row * 20; // Unified row height of 20px
         
-        svgContent += `  <text x="${x}" y="${y}" class="lang">${language} ${percentage}%</text>\n`;
+        // Use custom color class for each row if style is provided, otherwise use default lang class
+        const cssClass = useCustomColors ? `lang-row-${row}` : 'lang';
+        
+        svgContent += `  <text x="${x}" y="${y}" class="${cssClass}">${language} ${percentage}%</text>\n`;
       });      // Add footer
-      const footerY = svgHeight - 20; // 调整底部间距，避免文字被截断
+      const footerY = svgHeight - 20; // Adjust bottom spacing to avoid text truncation
       svgContent += `  <text x="0" y="${footerY}" class="footer">Based on ${totalRepos} repositories for ${displayName} (${username})</text>
 </svg>`;
 
