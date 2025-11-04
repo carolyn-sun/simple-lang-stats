@@ -12,11 +12,11 @@ And it is highly recommended to use it with Auto Light/Dark Mode support as show
 
 ```markdown
 <a href="https://github.com/carolyn-sun/simple-lang-stats#gh-light-mode-only">
-    <img src="https://sls.carolyn.sh/carolyn-sun" />
+    <img src="https://sls.carolyn.sh/{github-username}" />
 </a>
 
 <a href="https://github.com/carolyn-sun/simple-lang-stats#gh-dark-mode-only">
-    <img src="https://sls.carolyn.sh/carolyn-sun?night=true" />
+    <img src="https://sls.carolyn.sh/{github-username}?night=true" />
 </a>
 ```
 
