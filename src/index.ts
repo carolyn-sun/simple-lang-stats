@@ -248,13 +248,15 @@ export default {
       return new Response(
         `Simple Language Stats
 
-Usage: /{username}
+Usage: /{username}?night=true
 
 Returns 3-column layout:
 Language1 X%  Language2 Y%  Language3 Z%
 Language4 A%  Language5 B%  Language6 C%
 
-Example: /octocat
+Examples: 
+  /octocat (light mode, auto dark mode support)
+  /octocat?night=true (force dark mode)
 
 Note: For higher rate limits, configure a GitHub token in your environment.
 Without a token, you may encounter rate limit errors after several requests.`,
@@ -269,6 +271,9 @@ Without a token, you may encounter rate limit errors after several requests.`,
 
     // Extract username from URL path
     let username = pathname.slice(1);
+
+    // Parse URL parameters
+    const nightMode = url.searchParams.get('night') === 'true';
 
     // Check user-provided GitHub Token (for accessing private repositories)
     // Token requirements:
@@ -371,27 +376,39 @@ Without a token, you may encounter rate limit errors after several requests.`,
       const svgHeight = Math.max(100, Math.ceil(languageData.length / 3) * 20 + 60);
       const colWidth = svgWidth / 3;
       
+      // Choose colors based on night mode parameter
+      const colors = nightMode ? {
+        title: '#f0f6fc',
+        lang: '#f0f6fc', 
+        footer: '#8b949e'
+      } : {
+        title: '#24292f',
+        lang: '#24292f',
+        footer: '#656d76'
+      };
+      
       let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">
   <style>
     <![CDATA[
     .title { 
-      font: bold 16px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
-      fill: #24292f; 
+      font: bold 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
+      fill: ${colors.title}; 
     }
     .lang { 
-      font: 12px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; 
-      fill: #24292f; 
+      font: 14px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; 
+      fill: ${colors.lang}; 
     }
     .footer { 
-      font: 10px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
-      fill: #656d76; 
+      font: 14px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
+      fill: ${colors.footer}; 
     }
+    ${!nightMode ? `
     @media (prefers-color-scheme: dark) {
       .title { fill: #f0f6fc; }
       .lang { fill: #f0f6fc; }
       .footer { fill: #8b949e; }
-    }
+    }` : ''}
     ]]>
   </style>
   
@@ -411,7 +428,7 @@ Without a token, you may encounter rate limit errors after several requests.`,
 
       // Add footer
       const footerY = svgHeight - 10;
-      svgContent += `  <text x="0" y="${footerY}" class="footer">Based on ${totalRepos} repositories for ${displayName} (${username})</text>
+      svgContent += `  <text x="0" y="${footerY}" class="footer">Based on ${totalRepos} repositories for ${displayName} (${username}); Powered by <a href="https://github.com/carolyn-sun/simple-lang-stats">simple-lang-stats</a></text>
 </svg>`;
 
       return new Response(svgContent, {
