@@ -1,128 +1,54 @@
 # Simple Language Stats
 
-🚀 A GitHub Action that automatically generates and updates language statistics in your README.
+Enjoy simplicity.
 
-## Project Language Statistics
+A Cloudflare Worker that returns GitHub user language statistics as an SVG image.
 
-<!-- simple-lang-stats -->
-<!-- /simple-lang-stats -->
+## Usage
 
-## Quick Start
+Use the URL pattern `<img src="https://sls.carolyn.sh/{github-username}" />` to get the language stats for a GitHub user.
 
-To use this action in your repository, add it to your workflow file (e.g., `.github/workflows/update-stats.yml`):
+For example, for the user `carolyn-sun`, use the URL, `<img src="https://sls.carolyn.sh/carolyn-sun" />`.
 
-```yaml
-name: Update Language Stats
-
-on:
-  schedule:
-    - cron: '0 */6 * * *'  # Run every 6 hours
-  workflow_dispatch:  # Allow manual trigger
-
-jobs:
-  update-stats:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-        
-      - name: Update Language Stats
-        uses: carolyn-sun/simple-lang-stats@latest
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          username: ${{ github.repository_owner }}
-          
-      - name: Commit changes
-        run: |
-          git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add README.md
-          git diff --staged --quiet || git commit -m "Update language statistics"
-          git push
-```
-
-## Usage in Your README
-
-Add this marker to your README.md where you want the language statistics to appear:
+And it is highly recommended to use it with Auto Light/Dark Mode support as shown below.
 
 ```markdown
-<!-- simple-lang-stats -->
-<!-- /simple-lang-stats -->
+<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-light-mode-only">
+    <img src="https://sls.carolyn.sh/{github-username}" />
+</a>
+
+<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-dark-mode-only">
+    <img src="https://sls.carolyn.sh/{github-username}?night=true" />
+</a>
 ```
 
-The action will automatically insert your language statistics between these markers.
+<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-light-mode-only">
+    <img src="https://sls.carolyn.sh/carolyn-sun" />
+</a>
 
-## Example Output
+<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-dark-mode-only">
+    <img src="https://sls.carolyn.sh/carolyn-sun?night=true" />
+</a>
 
-Once the action runs, it will generate something like this in your README:
+The scope is public repositories. [Deploy your own Worker](#Deployment) to include private ones. 
 
-<!-- simple-lang-stats -->
-<table>
-  <tr><td><strong>TypeScript</strong> 45.2%</td><td><strong>JavaScript</strong> 23.1%</td><td><strong>Python</strong> 18.5%</td></tr>
-  <tr><td><strong>Java</strong> 8.7%</td><td><strong>Go</strong> 3.2%</td><td><strong>Shell</strong> 1.3%</td></tr>
-</table>
+## Themes
 
-<em>Based on 24 repositories for John Doe (johndoe)</em>
-<!-- /simple-lang-stats -->
+You can pass a `style` query parameter to change the appearance. It works like this: `<img src="https://sls.carolyn.sh/{github-username}?style={style-name}" />`.
 
-## Action Inputs
+The styling system uses a row-based color cycling approach. All languages in the same row use the same color, while each row uses a different color from the selected theme. When the number of rows exceeds the available colors in a theme, the colors cycle back to the beginning.
 
-| Input | Description | Required | Default |
-|-------|-------------|----------|---------|
-| `github-token` | GitHub token for API access | Yes | - |
-| `username` | GitHub username to generate stats for | No | Repository owner |
-| `style` | Style theme for output | No | `default` |
-| `night-mode` | Force dark mode | No | `false` |
-| `readme-path` | Path to README file to update | No | `README.md` |
+You can check the available styles in [style-helper.ts](./src/style-helper.ts).
 
-## Styling Options
+For example, to use the `transgender` style, use the URL `<img src="https://sls.carolyn.sh/carolyn-sun?style=transgender" />`.
 
-You can customize the appearance using the `style` parameter:
+<img src="https://sls.carolyn.sh/carolyn-sun?style=transgender" />
 
-```yaml
-- name: Update Language Stats
-  uses: carolyn-sun/simple-lang-stats@v2
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    style: ocean  # Available: default, github, ocean, sunset, forest, etc.
-```
+## Deployment
 
-Available styles: `default`, `github`, `ocean`, `sunset`, `forest`, `midnight`, `rainbow`, `pastel`, `tech`, `nature`, `monochrome`, `warm`, `cool`, `vintage`, `neon`, `earth`, `duo`, `trio`, `quad`, `penta`, `hex`, `pride`, `transgender`
+These are only relevant when deploying your own worker.
 
-## Different Repository
+- `GITHUB_TOKEN`: Your GitHub personal access token. This is required to access the GitHub API. `Repo` should be granted. 
+- `ENABLE_PRIVATE_ACCESS`: Set to `true` to include private repositories in the statistics. Defaults to `false`.
 
-To generate stats for a different user:
-
-```yaml
-- name: Update Language Stats
-  uses: carolyn-sun/simple-lang-stats@v2
-  with:
-    github-token: ${{ secrets.GITHUB_TOKEN }}
-    username: other-username
-```
-
-## Manual Trigger
-
-You can manually trigger the workflow from the Actions tab, or run it locally using the workflow dispatch event.
-
-## Action Outputs
-
-| Output | Description |
-|--------|-------------|
-| `stats-html` | Generated language statistics as HTML |
-| `languages-count` | Number of languages found |
-| `repositories-count` | Number of repositories analyzed |
-
-## Development
-
-To contribute or modify this action:
-
-1. Clone the repository
-2. Install dependencies: `npm install`
-3. Make your changes
-4. Build: `npm run build`
-5. Test locally or create a pull request
-
-## License
-
-MIT License - see [LICENSE](LICENSE) for details.
+[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fcarolyn-sun%2Fsimple-lang-stats)
