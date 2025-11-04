@@ -1,0 +1,27 @@
+{
+  "name": "simple-lang-stats",
+  "version": "1.0.0",
+  "description": "A Cloudflare Worker to get most used programming languages for a GitHub user",
+  "main": "src/index.ts",
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "start": "wrangler dev",
+    "build": "tsc",
+    "test": "echo \"使用 npm run dev 启动本地服务器进行测试\"",
+    "type-check": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "^4.20231025.0",
+    "typescript": "^5.0.0",
+    "wrangler": "^3.0.0"
+  },
+  "keywords": [
+    "cloudflare-worker",
+    "github-api",
+    "programming-languages",
+    "statistics"
+  ],
+  "author": "carolyn-sun",
+  "license": "MIT"
+}
