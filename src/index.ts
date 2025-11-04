@@ -373,7 +373,8 @@ Without a token, you may encounter rate limit errors after several requests.`,
 
       // Generate SVG with 3-column layout
       const svgWidth = 400;
-      const svgHeight = Math.max(100, Math.ceil(languageData.length / 3) * 20 + 60);
+      const lineHeight = 24; // 增加行高，避免重叠
+      const svgHeight = Math.max(120, Math.ceil(languageData.length / 3) * lineHeight + 80);
       const colWidth = svgWidth / 3;
       
       // Choose colors based on night mode parameter
@@ -413,7 +414,7 @@ Without a token, you may encounter rate limit errors after several requests.`,
   </style>
   
   <!-- Title -->
-  <text x="0" y="20" class="title">Most Used Langs</text>
+  <text x="0" y="22" class="title">Most Used Langs</text>
 `;
 
       // Add language entries in 3 columns
@@ -421,14 +422,14 @@ Without a token, you may encounter rate limit errors after several requests.`,
         const col = index % 3;
         const row = Math.floor(index / 3);
         const x = col * colWidth;
-        const y = 40 + row * 20;
-        
+        const y = 40 + row * lineHeight;
+
         svgContent += `  <text x="${x}" y="${y}" class="lang">${language} ${percentage}%</text>\n`;
       });
 
       // Add footer
-      const footerY = svgHeight - 10;
-      svgContent += `  <text x="0" y="${footerY}" class="footer">Based on ${totalRepos} repositories for ${displayName} (${username})<br/>Powered by <a href="https://github.com/carolyn-sun/simple-lang-stats">simple-lang-stats</a></text>
+      const footerY = svgHeight - 20; // 调整底部间距，避免文字被截断
+      svgContent += `  <text x="0" y="${footerY}" class="footer">Based on ${totalRepos} repositories for ${displayName} (${username})</text>
 </svg>`;
 
       return new Response(svgContent, {
