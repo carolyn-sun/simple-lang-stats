@@ -366,22 +366,46 @@ Without a token, you may encounter rate limit errors after several requests.`,
 
       const displayName = user.name || user.login;
 
-      // Generate simple 3-column layout with title
-      let response = `<h3 style="font-family: monospace; font-size: 16px; font-weight: bold; margin: 0 0 8px 0; color: #24292f;">Most Used Langs</h3>
-<div style="font-family: monospace; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; max-width: 600px; line-height: 0.9;">`;
+      // Generate SVG with 3-column layout
+      const svgWidth = 400;
+      const svgHeight = Math.max(120, Math.ceil(languageData.length / 3) * 20 + 80);
+      const colWidth = svgWidth / 3;
+      
+      let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">
+  <style>
+    .title { font: bold 16px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; fill: #24292f; }
+    .lang { font: 12px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; fill: #24292f; }
+    .footer { font: 10px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; fill: #656d76; }
+  </style>
+  
+  <!-- Background -->
+  <rect width="${svgWidth}" height="${svgHeight}" fill="#ffffff" stroke="#d0d7de" stroke-width="1" rx="6"/>
+  
+  <!-- Title -->
+  <text x="12" y="25" class="title">Most Used Langs</text>
+`;
 
-      languageData.forEach(({ language, percentage }) => {
-        response += `<div style="padding: 2px 4px; white-space: nowrap;">${language} ${percentage}%</div>`;
+      // Add language entries in 3 columns
+      languageData.forEach(({ language, percentage }, index) => {
+        const col = index % 3;
+        const row = Math.floor(index / 3);
+        const x = 12 + col * colWidth;
+        const y = 50 + row * 20;
+        
+        svgContent += `  <text x="${x}" y="${y}" class="lang">${language} ${percentage}%</text>\n`;
       });
 
-      response += `</div>
+      // Add footer
+      const footerY = svgHeight - 15;
+      svgContent += `  <text x="12" y="${footerY}" class="footer">Based on ${totalRepos} repositories for ${displayName} (${username})</text>
+</svg>`;
 
-<p style="font-family: monospace; font-size: 12px; color: #656d76; margin-top: 8px; margin-bottom: 0; line-height: 1.3;">
-Based on ${totalRepos} repositories for <strong>${displayName} (${username})</strong>
-</p>`;
-
-      return new Response(response, {
-        headers: { 'Content-Type': 'text/html; charset=utf-8' }
+      return new Response(svgContent, {
+        headers: { 
+          'Content-Type': 'image/svg+xml; charset=utf-8',
+          'Cache-Control': 'public, max-age=3600' // Cache for 1 hour
+        }
       });
 
     } catch (error) {
