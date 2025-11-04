@@ -1,5 +1,7 @@
 # Simple Language Stats
 
+Enjoy simplicity.
+
 A Cloudflare Worker that returns GitHub user language statistics as an SVG image.
 
 ## Usage
