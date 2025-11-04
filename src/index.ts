@@ -374,9 +374,25 @@ Without a token, you may encounter rate limit errors after several requests.`,
       let svgContent = `<?xml version="1.0" encoding="UTF-8"?>
 <svg width="${svgWidth}" height="${svgHeight}" viewBox="0 0 ${svgWidth} ${svgHeight}" xmlns="http://www.w3.org/2000/svg">
   <style>
-    .title { font: bold 16px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; fill: currentColor; }
-    .lang { font: 12px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; fill: currentColor; }
-    .footer { font: 10px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; fill: currentColor; opacity: 0.6; }
+    <![CDATA[
+    .title { 
+      font: bold 16px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
+      fill: #24292f; 
+    }
+    .lang { 
+      font: 12px ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace; 
+      fill: #24292f; 
+    }
+    .footer { 
+      font: 10px -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans', Helvetica, Arial, sans-serif; 
+      fill: #656d76; 
+    }
+    @media (prefers-color-scheme: dark) {
+      .title { fill: #f0f6fc; }
+      .lang { fill: #f0f6fc; }
+      .footer { fill: #8b949e; }
+    }
+    ]]>
   </style>
   
   <!-- Title -->
