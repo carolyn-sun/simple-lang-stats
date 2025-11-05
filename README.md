@@ -1,4 +1,4 @@
-# Simple Language Stats
+# Simple Language Statistics
 
 Enjoy simplicity.
 
