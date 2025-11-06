@@ -22,47 +22,21 @@ function generateLanguageStatsHTML(
   styleName?: string,
   nightMode?: boolean
 ): string {
-  const colsPerRow = 3;
-  const rows: string[] = [];
-  
-  // Get style configuration for potential color customization
-  const styleConfig = getStyleConfig(styleName);
-  const useCustomColors = styleName && isValidStyle(styleName);
-  
-    // Generate formatted rows with consistent spacing
-    for (let i = 0; i < languageData.length; i += colsPerRow) {
-      const rowLanguages = languageData.slice(i, i + colsPerRow);
-      const rowIndex = Math.floor(i / colsPerRow);
-      
-      // Get color for this row if using custom style
-      let rowStyle = '';
-      if (useCustomColors && styleConfig.colors.length > 0) {
-        const colorIndex = rowIndex % styleConfig.colors.length;
-        const color = styleConfig.colors[colorIndex];
-        rowStyle = ` style="color: ${color}"`;
-      }
-      
-      // Format each language as table cell
-      const cells = rowLanguages.map(({ language, percentage }) => {
-        const text = `${language} ${percentage}%`;
-        return `<td${rowStyle} style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</td>`;
-      });
-      
-      // Fill remaining columns if row is not complete
-      while (cells.length < colsPerRow) {
-        cells.push('<td style="padding: 0; margin: 0; border: none; background: none;"></td>');
-      }
-      
-      rows.push(`<tr style="border: none; background: none;">${cells.join('')}</tr>`);
-    }
-    
-    const tableRows = rows.join('\n');
-    const footerText = `\n<tr style="border: none; background: none;"><td colspan="3" style="padding-top: 8px; border: none; background: none; font-family: inherit;">Based on ${totalRepos} repositories for ${displayName} (${username})</td></tr>`;
-    
-    // Generate clean table with no borders, backgrounds, or spacing
-    const htmlOutput = `<table style="border-collapse: collapse; border: none; background: none; margin: 0; padding: 0; font-size: 1em; border-spacing: 0;">
-${tableRows}${footerText}
-</table>`;  return htmlOutput;
+  // Generate simple 3-column layout with title
+  let response = `<h3 style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 16px; font-weight: bold; margin: 0 0 8px 0; color: #24292f;">Most Used Languages</h3>
+<div style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 5px; max-width: 600px; line-height: 0.9;">`;
+
+  languageData.forEach(({ language, percentage }) => {
+    response += `<div style="padding: 2px 4px; white-space: nowrap;">${language} ${percentage}%</div>`;
+  });
+
+  response += `</div>
+
+<p style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 12px; color: #656d76; margin-top: 8px; margin-bottom: 0; line-height: 1.3;">
+Based on ${totalRepos} repositories for <strong>${displayName} (${username})</strong>
+</p>`;
+
+  return response;
 }
 
 /**

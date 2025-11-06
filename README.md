@@ -5,13 +5,12 @@
 ## Project Language Statistics
 
 <!-- simple-lang-stats -->
-<table>
-  <tr><td style="color: #3572A5"><strong>TypeScript</strong> 56.87%</td><td style="color: #3572A5"><strong>JavaScript</strong> 15.38%</td><td style="color: #3572A5"><strong>Shell</strong> 11.42%</td></tr>
-  <tr><td style="color: #f1e05a"><strong>V</strong> 5.52%</td><td style="color: #f1e05a"><strong>Ruby</strong> 4%</td><td style="color: #f1e05a"><strong>CSS</strong> 3.86%</td></tr>
-  <tr><td style="color: #e34c26"><strong>MDX</strong> 2.72%</td><td style="color: #e34c26"><strong>PowerShell</strong> 0.23%</td><td></td></tr>
+<table style="border-collapse: collapse; border: none; margin: 0; padding: 0; font-size: 1em;">
+<tr><td style="color: #3572A5" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">TypeScript 57.2%</td><td style="color: #3572A5" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">JavaScript 15.26%</td><td style="color: #3572A5" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Shell 11.33%</td></tr>
+<tr><td style="color: #f1e05a" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">V 5.47%</td><td style="color: #f1e05a" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Ruby 3.97%</td><td style="color: #f1e05a" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">CSS 3.83%</td></tr>
+<tr><td style="color: #e34c26" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">MDX 2.7%</td><td style="color: #e34c26" style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">PowerShell 0.23%</td><td style="padding: 0; border: none;"></td></tr>
+<tr><td colspan="3" style="padding-top: 8px; border: none; font-family: inherit;">Based on 7 repositories for Carolyn Sun (carolyn-sun)</td></tr>
 </table>
-
-<em>Based on 7 repositories for Carolyn Sun (carolyn-sun)</em>
 <!-- /simple-lang-stats -->
 
 ## Quick Start
@@ -58,19 +57,6 @@ Add this marker to your README.md where you want the language statistics to appe
 ```
 
 The action will automatically insert your language statistics between these markers.
-
-## Example Output
-
-Once the action runs, it will generate something like this in your README:
-
-<!-- simple-lang-stats -->
-<table style="border-collapse: collapse; border: none; background: none; margin: 0; padding: 0; font-size: 1em; border-spacing: 0;">
-<tr style="border: none; background: none;"><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">TypeScript 45.2%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">JavaScript 23.1%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Python 18.5%</td></tr>
-<tr style="border: none; background: none;"><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Java 8.7%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Go 3.2%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Shell 1.3%</td></tr>
-
-<tr style="border: none; background: none;"><td colspan="3" style="padding-top: 8px; border: none; background: none; font-family: inherit;">Based on 24 repositories for John Doe (johndoe)</td></tr>
-</table>
-<!-- /simple-lang-stats -->
 
 ## Action Inputs
 
