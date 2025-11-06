@@ -62,7 +62,7 @@ function getInputWithEnvFallback(name: string, options: { required?: boolean } =
 }
 
 /**
- * Generate language statistics as HTML
+ * Generate language statistics as code block
  */
 function generateLanguageStatsHTML(
   languageData: Array<{ language: string; percentage: number }>,
@@ -75,76 +75,34 @@ function generateLanguageStatsHTML(
   const colsPerRow = 3;
   const rows: string[] = [];
   
-  // Get style configuration for potential color customization
-  const styleConfig = getStyleConfig(styleName);
-  const useCustomColors = styleName && isValidStyle(styleName);
-  
-    // Generate formatted rows with consistent spacing
-    for (let i = 0; i < languageData.length; i += colsPerRow) {
-      const rowLanguages = languageData.slice(i, i + colsPerRow);
-      const rowIndex = Math.floor(i / colsPerRow);
-      
-      // Get color for this row if using custom style
-      let rowStyle = '';
-      if (useCustomColors && styleConfig.colors.length > 0 && styleName !== 'default') {
-        const colorIndex = rowIndex % styleConfig.colors.length;
-        const color = styleConfig.colors[colorIndex];
-        rowStyle = ` style="color: ${color}"`;
-      }
-      
-      // Format each language as table cell
-      const cells = rowLanguages.map(({ language, percentage }) => {
-        const text = `${language} ${percentage}%`;
-        return `<td${rowStyle} style="padding: 0 1.5em 0 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</td>`;
-      });
-      
-      // Fill remaining columns if row is not complete
-      while (cells.length < colsPerRow) {
-        cells.push('<td style="padding: 0 1.5em 0 0; margin: 0; border: none; background: none;"></td>');
-      }
-      
-      rows.push(`<tr style="border: none; background: none;">${cells.join('')}</tr>`);
+  // Generate formatted rows with consistent spacing
+  for (let i = 0; i < languageData.length; i += colsPerRow) {
+    const rowLanguages = languageData.slice(i, i + colsPerRow);
+    
+    // Format each language with proper padding
+    const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
+      return `${language} ${percentage}%`.padEnd(20);
+    });
+    
+    // Fill remaining columns if row is not complete
+    while (formattedLanguages.length < colsPerRow) {
+      formattedLanguages.push(''.padEnd(20));
     }
     
-    const tableRows = rows.join('\n');
-    const footerText = `\nBased on ${totalRepos} repositories for ${displayName} (${username})`;
-    
-    // Generate responsive table with flexible layout
-    const htmlOutput = `<div style="width: 100%; overflow-x: auto;">
-<style>
-.responsive-lang-table {
-  width: 100%;
-  max-width: 100%;
-  table-layout: auto;
-}
-.responsive-lang-table td {
-  white-space: nowrap;
-}
-@media (max-width: 768px) {
-  .responsive-lang-table {
-    font-size: 0.9em;
+    rows.push(formattedLanguages.join(''));
   }
-  .responsive-lang-table td {
-    padding-right: 1em !important;
-  }
-}
-@media (max-width: 480px) {
-  .responsive-lang-table {
-    font-size: 0.8em;
-  }
-  .responsive-lang-table td {
-    padding-right: 0.8em !important;
-  }
-}
-</style>
-<table class="responsive-lang-table" style="border-collapse: collapse; border: none; background: none; margin: 0; padding: 0; font-size: 1em; border-spacing: 0;">
-${tableRows}
-</table>
-</div>
-
+  
+  const statsContent = rows.join('\n');
+  const footerText = `\nBased on ${totalRepos} repositories for ${displayName} (${username})`;
+  
+  // Generate clean code block format
+  const output = `\`\`\`
+${statsContent}
+\`\`\`
 ${footerText}`;
 
-  return htmlOutput;
+  return output;
+    
 }
 
 /**
