@@ -234,18 +234,31 @@ export async function run(): Promise<void> {
     // Set outputs (for GitHub Actions)
     try {
       // Use environment files instead of deprecated set-output
-      const outputs = [
-        `stats-html=${statsHTML}`,
-        `languages-count=${languageData.length}`,
-        `repositories-count=${totalRepos}`
-      ];
-      
+      const outputs: { [key: string]: any } = {
+        'stats-html': statsHTML,
+        'languages-count': languageData.length,
+        'repositories-count': totalRepos
+      };
+
       // Write to GitHub Actions output file if available
       if (process.env.GITHUB_OUTPUT) {
         const fs = require('fs');
-        outputs.forEach(output => {
-          fs.appendFileSync(process.env.GITHUB_OUTPUT, `${output}\n`);
-        });
+        const filePath = process.env.GITHUB_OUTPUT;
+
+        const writeOutput = (name: string, value: any) => {
+          const stringValue = value === undefined || value === null ? '' : String(value);
+
+          // If the value contains newlines, use the multiline delimiter syntax
+          if (stringValue.includes('\n') || stringValue.includes('\r')) {
+            // Use a reasonably-unique delimiter to avoid collisions with content
+            const delim = `EOF_${Math.random().toString(36).slice(2)}`;
+            fs.appendFileSync(filePath, `${name}<<${delim}\n${stringValue}\n${delim}\n`);
+          } else {
+            fs.appendFileSync(filePath, `${name}=${stringValue}\n`);
+          }
+        };
+
+        Object.entries(outputs).forEach(([k, v]) => writeOutput(k, v));
       }
     } catch (e) {
       // Ignore errors if not in GitHub Actions environment
