@@ -5,6 +5,13 @@
 ## Project Language Statistics
 
 <!-- simple-lang-stats -->
+<table>
+  <tr><td style="color: #3572A5"><strong>TypeScript</strong> 56.87%</td><td style="color: #3572A5"><strong>JavaScript</strong> 15.38%</td><td style="color: #3572A5"><strong>Shell</strong> 11.42%</td></tr>
+  <tr><td style="color: #f1e05a"><strong>V</strong> 5.52%</td><td style="color: #f1e05a"><strong>Ruby</strong> 4%</td><td style="color: #f1e05a"><strong>CSS</strong> 3.86%</td></tr>
+  <tr><td style="color: #e34c26"><strong>MDX</strong> 2.72%</td><td style="color: #e34c26"><strong>PowerShell</strong> 0.23%</td><td></td></tr>
+</table>
+
+<em>Based on 7 repositories for Carolyn Sun (carolyn-sun)</em>
 <!-- /simple-lang-stats -->
 
 ## Quick Start
