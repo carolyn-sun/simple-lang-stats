@@ -29,42 +29,35 @@ function generateLanguageStatsHTML(
   const styleConfig = getStyleConfig(styleName);
   const useCustomColors = styleName && isValidStyle(styleName);
   
-  // Generate formatted rows with consistent spacing
-  for (let i = 0; i < languageData.length; i += colsPerRow) {
-    const rowLanguages = languageData.slice(i, i + colsPerRow);
-    const rowIndex = Math.floor(i / colsPerRow);
-    
-    // Get color for this row if using custom style
-    let rowStyle = '';
-    if (useCustomColors && styleConfig.colors.length > 0) {
-      const colorIndex = rowIndex % styleConfig.colors.length;
-      const color = styleConfig.colors[colorIndex];
-      rowStyle = ` style="color: ${color}"`;
+    // Generate formatted rows with consistent spacing
+    for (let i = 0; i < languageData.length; i += colsPerRow) {
+      const rowLanguages = languageData.slice(i, i + colsPerRow);
+      const rowIndex = Math.floor(i / colsPerRow);
+      
+      // Get color for this row if using custom style
+      let rowStyle = '';
+      if (useCustomColors && styleConfig.colors.length > 0) {
+        const colorIndex = rowIndex % styleConfig.colors.length;
+        const color = styleConfig.colors[colorIndex];
+        rowStyle = ` style="color: ${color}"`;
+      }
+      
+      // Format each language with consistent width (20 characters per column)
+      const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
+        const text = `${language} ${percentage}%`;
+        return `<code${rowStyle}>${text.padEnd(20)}</code>`;
+      });
+      
+      rows.push(formattedLanguages.join(''));
     }
     
-    // Format each language with consistent width (20 characters per column)
-    const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
-      const text = `${language} ${percentage}%`;
-      return `<span${rowStyle}>${text.padEnd(20)}</span>`;
-    });
+    const statsLines = rows.join('<br>\n');
+    const footerText = `<br><br>Based on ${totalRepos} repositories for ${displayName} (${username})`;
     
-    // Fill remaining columns with spaces if row is not complete
-    while (formattedLanguages.length < colsPerRow) {
-      formattedLanguages.push('<span>' + ''.padEnd(20) + '</span>');
-    }
-    
-    rows.push(formattedLanguages.join(''));
-  }
-  
-  const statsLines = rows.join('\n');
-  const footerText = `\n<em>Based on ${totalRepos} repositories for ${displayName} (${username})</em>`;
-  
-  // Generate monospace formatted output
-  const htmlOutput = `<pre style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0; white-space: pre; overflow-x: auto;">
+    // Generate clean monospace formatted output without background
+    const htmlOutput = `<div style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em;">
 ${statsLines}${footerText}
-</pre>`;
-  
-  return htmlOutput;
+</div>`;  return htmlOutput;
 }
 
 /**
