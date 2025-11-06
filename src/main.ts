@@ -72,33 +72,48 @@ function generateLanguageStatsHTML(
   styleName?: string,
   nightMode?: boolean
 ): string {
-  const colsPerRow = 3;
+  // Dynamic layout based on language name lengths
+  const maxNameLength = Math.max(...languageData.map(item => item.language.length));
+  const itemWidth = Math.max(maxNameLength + 8, 16); // At least 16 chars, or name + percentage + padding
+  
+  // Determine optimal columns per row based on typical screen widths
+  // Assuming code blocks in most markdown renderers use ~80-120 char width effectively
+  const maxLineWidth = 100;
+  const colsPerRow = Math.max(1, Math.floor(maxLineWidth / itemWidth));
+  
   const rows: string[] = [];
   
-  // Generate formatted rows with consistent spacing
+  // Generate formatted rows with dynamic spacing
   for (let i = 0; i < languageData.length; i += colsPerRow) {
     const rowLanguages = languageData.slice(i, i + colsPerRow);
     
-    // Format each language with proper padding
+    // Format each language with calculated padding
     const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
-      return `${language} ${percentage}%`.padEnd(20);
+      const text = `${language} ${percentage}%`;
+      return text.padEnd(itemWidth);
     });
     
-    // Fill remaining columns if row is not complete
-    while (formattedLanguages.length < colsPerRow) {
-      formattedLanguages.push(''.padEnd(20));
-    }
-    
-    rows.push(formattedLanguages.join(''));
+    // Add the row (no need to fill empty columns for better mobile display)
+    rows.push(formattedLanguages.join('').trimEnd());
   }
   
   const statsContent = rows.join('\n');
   const footerText = `\nBased on ${totalRepos} repositories for ${displayName} (${username})`;
   
-  // Generate clean code block format
+  // Generate responsive code block with both normal and compact versions
+  const compactStats = languageData.map(({ language, percentage }) => 
+    `${language}: ${percentage}%`
+  ).join(' • ');
+  
   const output = `\`\`\`
 ${statsContent}
 \`\`\`
+
+<details>
+<summary>📱 Mobile view</summary>
+
+${compactStats}
+</details>
 ${footerText}`;
 
   return output;
