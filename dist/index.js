@@ -25909,7 +25909,7 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
     // Join with line breaks for single column display
     const statsContent = languageItems.join('\n');
     // Generate footer content outside code block with br tags for spacing control
-    const footerText = `*Based on ${totalRepos} repositories for ${displayName} (${username})*<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)`;
+    const footerText = `*Based on ${totalRepos} repositories for ${displayName} (${username})<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*`;
     // Generate single column code block format with footer outside
     const output = `\`\`\`
 ${statsContent}
