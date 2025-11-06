@@ -36,7 +36,6 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           username: ${{ github.repository_owner }}
-          style: 'default'
           
       - name: Commit and push changes
         run: |

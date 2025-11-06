@@ -25874,7 +25874,7 @@ function loadLocalEnv() {
                 const cleanKey = key.trim();
                 process.env[cleanKey] = value;
                 // Convert to GitHub Actions input format
-                if (cleanKey.startsWith('INPUT_') || cleanKey === 'GITHUB_TOKEN' || cleanKey === 'GITHUB_REPOSITORY') {
+                if (cleanKey.startsWith('INPUT_') || cleanKey === 'GITHUB_TOKEN') {
                     const inputKey = cleanKey.startsWith('INPUT_') ? cleanKey : `INPUT_${cleanKey.replace(/[^A-Z0-9_]/gi, '_').toUpperCase()}`;
                     process.env[inputKey] = value;
                 }
@@ -25903,39 +25903,17 @@ function getInputWithEnvFallback(name, options = {}) {
 /**
  * Generate language statistics as code block
  */
-function generateLanguageStatsHTML(languageData, username, displayName, totalRepos, styleName, nightMode) {
-    // Dynamic layout based on language name lengths
-    const maxNameLength = Math.max(...languageData.map(item => item.language.length));
-    const itemWidth = Math.max(maxNameLength + 8, 16); // At least 16 chars, or name + percentage + padding
-    // Determine optimal columns per row based on typical screen widths
-    // Assuming code blocks in most markdown renderers use ~80-120 char width effectively
-    const maxLineWidth = 100;
-    const colsPerRow = Math.max(1, Math.floor(maxLineWidth / itemWidth));
-    const rows = [];
-    // Generate formatted rows with dynamic spacing
-    for (let i = 0; i < languageData.length; i += colsPerRow) {
-        const rowLanguages = languageData.slice(i, i + colsPerRow);
-        // Format each language with calculated padding
-        const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
-            const text = `${language} ${percentage}%`;
-            return text.padEnd(itemWidth);
-        });
-        // Add the row (no need to fill empty columns for better mobile display)
-        rows.push(formattedLanguages.join('').trimEnd());
-    }
-    const statsContent = rows.join('\n');
-    const footerText = `\nBased on ${totalRepos} repositories for ${displayName} (${username})`;
-    // Generate responsive code block with both normal and compact versions
-    const compactStats = languageData.map(({ language, percentage }) => `${language}: ${percentage}%`).join(' • ');
+function generateLanguageStatsHTML(languageData, username, displayName, totalRepos) {
+    // Create single column layout with percentage at the beginning of each line
+    const languageItems = languageData.map(({ language, percentage }) => `${percentage}% ${language}`);
+    // Join with line breaks for single column display
+    const statsContent = languageItems.join('\n');
+    // Generate footer content outside code block with br tags for spacing control
+    const footerText = `*Based on ${totalRepos} repositories for ${displayName} (${username})*<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)`;
+    // Generate single column code block format with footer outside
     const output = `\`\`\`
 ${statsContent}
 \`\`\`
-
-<details>
-<summary>📱 Mobile view</summary>
-
-${compactStats}
-</details>
 ${footerText}`;
     return output;
 }
@@ -25992,28 +25970,14 @@ async function run() {
         loadLocalEnv();
         // Get inputs with environment variable fallback
         const githubToken = getInputWithEnvFallback('github-token', { required: true });
-        let username = getInputWithEnvFallback('username') || '';
-        const styleName = getInputWithEnvFallback('style') || 'default';
-        const nightMode = getInputWithEnvFallback('night-mode') === 'true';
+        const username = getInputWithEnvFallback('username', { required: true });
         const readmePath = getInputWithEnvFallback('readme-path') || 'README.md';
         // For local testing, also try GITHUB_TOKEN directly
         const token = githubToken || process.env.GITHUB_TOKEN || '';
         if (!token) {
             throw new Error('GitHub token is required. Set GITHUB_TOKEN in .env file or provide github-token input.');
         }
-        // If username is not provided, try to extract from repository context
-        if (!username) {
-            const repository = process.env.GITHUB_REPOSITORY;
-            if (repository) {
-                const [owner] = repository.split('/');
-                username = owner;
-            }
-            else {
-                throw new Error('Username not provided and could not extract from repository context. Set USERNAME in .env file or provide username input.');
-            }
-        }
         console.log(`🎯 Generating language statistics for user: ${username}`);
-        console.log(`🎨 Using style: ${styleName}`);
         console.log(`📄 README path: ${readmePath}`);
         // Validate username format
         if (!/^[a-zA-Z0-9]([a-zA-Z0-9-])*[a-zA-Z0-9]$|^[a-zA-Z0-9]$/.test(username)) {
@@ -26055,7 +26019,7 @@ async function run() {
         const languageData = (0, language_stats_1.calculateLanguagePercentages)(languageStats, totalSize);
         const displayName = user.name || user.login;
         // Generate language statistics HTML
-        const statsHTML = generateLanguageStatsHTML(languageData, username, displayName, totalRepos, styleName, nightMode);
+        const statsHTML = generateLanguageStatsHTML(languageData, username, displayName, totalRepos);
         console.log('✅ Language statistics generated successfully');
         console.log(`📊 Found ${languageData.length} languages across ${totalRepos} repositories`);
         // Update README file

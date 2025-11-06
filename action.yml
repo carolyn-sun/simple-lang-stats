@@ -11,16 +11,7 @@ inputs:
     required: true
   username:
     description: 'GitHub username to generate stats for'
-    required: false
-    default: ''
-  style:
-    description: 'Style theme for the output'
-    required: false
-    default: 'default'
-  night-mode:
-    description: 'Force dark mode'
-    required: false
-    default: 'false'
+    required: true
   readme-path:
     description: 'Path to README file to update'
     required: false
