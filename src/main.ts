@@ -69,10 +69,17 @@ function generateLanguageStatsHTML(
   displayName: string,
   totalRepos: number
 ): string {
-  // Create single column layout with percentage at the beginning of each line
-  const languageItems = languageData.map(({ language, percentage }) => 
-    `${percentage}% ${language}`
+  // Find the maximum width needed for percentage display (including the % symbol)
+  const maxPercentageWidth = Math.max(
+    ...languageData.map(({ percentage }) => `${percentage}%`.length)
   );
+  
+  // Create single column layout with aligned percentages
+  const languageItems = languageData.map(({ language, percentage }) => {
+    const percentageText = `${percentage}%`;
+    const paddedPercentage = percentageText.padStart(maxPercentageWidth);
+    return `${paddedPercentage} ${language}`;
+  });
   
   // Join with line breaks for single column display
   const statsContent = languageItems.join('\n');
