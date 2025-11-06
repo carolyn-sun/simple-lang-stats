@@ -51,7 +51,7 @@ jobs:
       - name: Update Language Stats
         uses: carolyn-sun/simple-lang-stats@latest
         with:
-          github-token: ${{ secrets.PAT }}
+          PAT: ${{ secrets.PAT }}
           username: ${{ github.repository_owner }}
           
       - name: Commit changes
