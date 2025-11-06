@@ -37,6 +37,7 @@ Then, add it to your workflow file (e.g., `.github/workflows/update-stats.yml`):
 name: Update Language Stats
 
 on:
+  push:
   schedule:
     - cron: '0 */6 * * *'  # Run every 6 hours
   workflow_dispatch:  # Allow manual trigger
