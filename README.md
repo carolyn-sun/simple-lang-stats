@@ -5,12 +5,11 @@
 ## Project Language Statistics
 
 <!-- simple-lang-stats -->
-<pre style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0; white-space: pre; overflow-x: auto;">
-<span style="color: #3572A5">TypeScript 57.13%   </span><span style="color: #3572A5">JavaScript 15.28%   </span><span style="color: #3572A5">Shell 11.35%        </span>
-<span style="color: #f1e05a">V 5.48%             </span><span style="color: #f1e05a">Ruby 3.98%          </span><span style="color: #f1e05a">CSS 3.83%           </span>
-<span style="color: #e34c26">MDX 2.71%           </span><span style="color: #e34c26">PowerShell 0.23%    </span><span>                    </span>
-<em>Based on 7 repositories for Carolyn Sun (carolyn-sun)</em>
-</pre>
+<div style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em;">
+<code style="color: #3572A5">TypeScript 57.02%   </code><code style="color: #3572A5">JavaScript 15.32%   </code><code style="color: #3572A5">Shell 11.38%        </code><br>
+<code style="color: #f1e05a">V 5.5%              </code><code style="color: #f1e05a">Ruby 3.99%          </code><code style="color: #f1e05a">CSS 3.84%           </code><br>
+<code style="color: #e34c26">MDX 2.71%           </code><code style="color: #e34c26">PowerShell 0.23%    </code><br><br>Based on 7 repositories for Carolyn Sun (carolyn-sun)
+</div>
 <!-- /simple-lang-stats -->
 
 ## Quick Start
