@@ -1,6 +1,6 @@
 // Preset style color configurations
 const PRESET_STYLES: { [key: string]: string[] } = {
-  default: ['#3572A5', '#f1e05a', '#e34c26', '#563d7c', '#b07219', '#701516', '#00ADD8'],
+  default: [],
   github: ['#1f77b4', '#ff7f0e', '#2ca02c', '#d62728', '#9467bd', '#8c564b', '#e377c2'],
   ocean: ['#006994', '#4A90E2', '#7ED321', '#F5A623', '#D0021B', '#50E3C2', '#B8E986'],
   sunset: ['#FF6B6B', '#FFE66D', '#FF8E53', '#C44569', '#F8B500', '#FF1744', '#6C5CE7'],
