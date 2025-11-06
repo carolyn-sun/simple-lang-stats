@@ -25879,16 +25879,16 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
         // Format each language with consistent width (20 characters per column)
         const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
             const text = `${language} ${percentage}%`;
-            return `<code${rowStyle}>${text.padEnd(20)}</code>`;
+            return `<span${rowStyle}>${text.padEnd(20)}</span>`;
         });
         rows.push(formattedLanguages.join(''));
     }
     const statsLines = rows.join('<br>\n');
     const footerText = `<br><br>Based on ${totalRepos} repositories for ${displayName} (${username})`;
-    // Generate clean monospace formatted output without background
-    const htmlOutput = `<div style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em;">
+    // Generate clean monospace formatted output using p tag
+    const htmlOutput = `<p style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0;">
 ${statsLines}${footerText}
-</div>`;
+</p>`;
     return htmlOutput;
 }
 /**
