@@ -42,8 +42,8 @@ jobs:
             - name: Update Language Stats
               uses: carolyn-sun/simple-lang-stats@${{ github.ref_name }}
               with:
-                PAT: ${{ secrets.PAT }}
-                username: ${{ github.repository_owner }}
+                PAT: your_pat_here
+                username: your_github_username
             ```
           draft: false
           prerelease: false
