@@ -29,7 +29,7 @@ function generateLanguageStatsHTML(
   const styleConfig = getStyleConfig(styleName);
   const useCustomColors = styleName && isValidStyle(styleName);
   
-  // Generate HTML table rows
+  // Generate formatted rows with consistent spacing
   for (let i = 0; i < languageData.length; i += colsPerRow) {
     const rowLanguages = languageData.slice(i, i + colsPerRow);
     const rowIndex = Math.floor(i / colsPerRow);
@@ -42,24 +42,27 @@ function generateLanguageStatsHTML(
       rowStyle = ` style="color: ${color}"`;
     }
     
-    const cells = rowLanguages
-      .map(({ language, percentage }) => `<td${rowStyle}><strong>${language}</strong> ${percentage}%</td>`)
-      .join('');
+    // Format each language with consistent width (20 characters per column)
+    const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
+      const text = `${language} ${percentage}%`;
+      return `<span${rowStyle}>${text.padEnd(20)}</span>`;
+    });
     
-    // Fill empty cells if row is not complete
-    const emptyCells = '<td></td>'.repeat(colsPerRow - rowLanguages.length);
-    rows.push(`  <tr>${cells}${emptyCells}</tr>`);
+    // Fill remaining columns with spaces if row is not complete
+    while (formattedLanguages.length < colsPerRow) {
+      formattedLanguages.push('<span>' + ''.padEnd(20) + '</span>');
+    }
+    
+    rows.push(formattedLanguages.join(''));
   }
   
-  const tableRows = rows.join('\n');
-  const footerText = `<em>Based on ${totalRepos} repositories for ${displayName} (${username})</em>`;
+  const statsLines = rows.join('\n');
+  const footerText = `\n<em>Based on ${totalRepos} repositories for ${displayName} (${username})</em>`;
   
-  // Generate responsive HTML table
-  const htmlOutput = `<table>
-${tableRows}
-</table>
-
-${footerText}`;
+  // Generate monospace formatted output
+  const htmlOutput = `<pre style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0; white-space: pre; overflow-x: auto;">
+${statsLines}${footerText}
+</pre>`;
   
   return htmlOutput;
 }

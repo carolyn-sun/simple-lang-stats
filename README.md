@@ -1,54 +1,135 @@
-# Simple Language Statistics
+# Simple Language Stats
 
-Enjoy simplicity.
+🚀 A GitHub Action that automatically generates and updates language statistics in your README.
 
-A Cloudflare Worker that returns GitHub user language statistics as an SVG image.
+## Project Language Statistics
 
-## Usage
+<!-- simple-lang-stats -->
+<table>
+  <tr><td style="color: #3572A5"><strong>TypeScript</strong> 56.87%</td><td style="color: #3572A5"><strong>JavaScript</strong> 15.38%</td><td style="color: #3572A5"><strong>Shell</strong> 11.42%</td></tr>
+  <tr><td style="color: #f1e05a"><strong>V</strong> 5.52%</td><td style="color: #f1e05a"><strong>Ruby</strong> 4%</td><td style="color: #f1e05a"><strong>CSS</strong> 3.86%</td></tr>
+  <tr><td style="color: #e34c26"><strong>MDX</strong> 2.72%</td><td style="color: #e34c26"><strong>PowerShell</strong> 0.23%</td><td></td></tr>
+</table>
 
-Use the URL pattern `<img src="https://sls.carolyn.sh/{github-username}" />` to get the language stats for a GitHub user.
+<em>Based on 7 repositories for Carolyn Sun (carolyn-sun)</em>
+<!-- /simple-lang-stats -->
 
-For example, for the user `carolyn-sun`, use the URL, `<img src="https://sls.carolyn.sh/carolyn-sun" />`.
+## Quick Start
 
-And it is highly recommended to use it with Auto Light/Dark Mode support as shown below.
+To use this action in your repository, add it to your workflow file (e.g., `.github/workflows/update-stats.yml`):
 
-```markdown
-<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-light-mode-only">
-    <img src="https://sls.carolyn.sh/{github-username}" />
-</a>
+```yaml
+name: Update Language Stats
 
-<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-dark-mode-only">
-    <img src="https://sls.carolyn.sh/{github-username}?night=true" />
-</a>
+on:
+  schedule:
+    - cron: '0 */6 * * *'  # Run every 6 hours
+  workflow_dispatch:  # Allow manual trigger
+
+jobs:
+  update-stats:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        
+      - name: Update Language Stats
+        uses: carolyn-sun/simple-lang-stats@latest
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          username: ${{ github.repository_owner }}
+          
+      - name: Commit changes
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add README.md
+          git diff --staged --quiet || git commit -m "Update language statistics"
+          git push
 ```
 
-<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-light-mode-only">
-    <img src="https://sls.carolyn.sh/carolyn-sun" />
-</a>
+## Usage in Your README
 
-<a href="https://github.com/carolyn-sun/simple-lang-stats#gh-dark-mode-only">
-    <img src="https://sls.carolyn.sh/carolyn-sun?night=true" />
-</a>
+Add this marker to your README.md where you want the language statistics to appear:
 
-The scope is public repositories. [Deploy your own Worker](#Deployment) to include private ones. 
+```markdown
+<!-- simple-lang-stats -->
+<!-- /simple-lang-stats -->
+```
 
-## Themes
+The action will automatically insert your language statistics between these markers.
 
-You can pass a `style` query parameter to change the appearance. It works like this: `<img src="https://sls.carolyn.sh/{github-username}?style={style-name}" />`.
+## Example Output
 
-The styling system uses a row-based color cycling approach. All languages in the same row use the same color, while each row uses a different color from the selected theme. When the number of rows exceeds the available colors in a theme, the colors cycle back to the beginning.
+Once the action runs, it will generate something like this in your README:
 
-You can check the available styles in [style-helper.ts](./src/style-helper.ts).
+<!-- simple-lang-stats -->
+<pre style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0; white-space: pre; overflow-x: auto;">
+TypeScript 45.2%    JavaScript 23.1%    Python 18.5%       
+Java 8.7%           Go 3.2%              Shell 1.3%          
 
-For example, to use the `transgender` style, use the URL `<img src="https://sls.carolyn.sh/carolyn-sun?style=transgender" />`.
+<em>Based on 24 repositories for John Doe (johndoe)</em>
+</pre>
+<!-- /simple-lang-stats -->
 
-<img src="https://sls.carolyn.sh/carolyn-sun?style=transgender" />
+## Action Inputs
 
-## Deployment
+| Input | Description | Required | Default |
+|-------|-------------|----------|---------|
+| `github-token` | GitHub token for API access | Yes | - |
+| `username` | GitHub username to generate stats for | No | Repository owner |
+| `style` | Style theme for output | No | `default` |
+| `night-mode` | Force dark mode | No | `false` |
+| `readme-path` | Path to README file to update | No | `README.md` |
 
-These are only relevant when deploying your own worker.
+## Styling Options
 
-- `GITHUB_TOKEN`: Your GitHub personal access token. This is required to access the GitHub API. `Repo` should be granted. 
-- `ENABLE_PRIVATE_ACCESS`: Set to `true` to include private repositories in the statistics. Defaults to `false`.
+You can customize the appearance using the `style` parameter:
 
-[![Deploy to Cloudflare](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https%3A%2F%2Fgithub.com%2Fcarolyn-sun%2Fsimple-lang-stats)
+```yaml
+- name: Update Language Stats
+  uses: carolyn-sun/simple-lang-stats@v2
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    style: ocean  # Available: default, github, ocean, sunset, forest, etc.
+```
+
+Available styles: `default`, `github`, `ocean`, `sunset`, `forest`, `midnight`, `rainbow`, `pastel`, `tech`, `nature`, `monochrome`, `warm`, `cool`, `vintage`, `neon`, `earth`, `duo`, `trio`, `quad`, `penta`, `hex`, `pride`, `transgender`
+
+## Different Repository
+
+To generate stats for a different user:
+
+```yaml
+- name: Update Language Stats
+  uses: carolyn-sun/simple-lang-stats@v2
+  with:
+    github-token: ${{ secrets.GITHUB_TOKEN }}
+    username: other-username
+```
+
+## Manual Trigger
+
+You can manually trigger the workflow from the Actions tab, or run it locally using the workflow dispatch event.
+
+## Action Outputs
+
+| Output | Description |
+|--------|-------------|
+| `stats-html` | Generated language statistics as HTML |
+| `languages-count` | Number of languages found |
+| `repositories-count` | Number of repositories analyzed |
+
+## Development
+
+To contribute or modify this action:
+
+1. Clone the repository
+2. Install dependencies: `npm install`
+3. Make your changes
+4. Build: `npm run build`
+5. Test locally or create a pull request
+
+## License
+
+MIT License - see [LICENSE](LICENSE) for details.

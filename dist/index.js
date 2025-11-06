@@ -25865,7 +25865,7 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
     // Get style configuration for potential color customization
     const styleConfig = (0, style_helper_1.getStyleConfig)(styleName);
     const useCustomColors = styleName && (0, style_helper_1.isValidStyle)(styleName);
-    // Generate HTML table rows
+    // Generate formatted rows with consistent spacing
     for (let i = 0; i < languageData.length; i += colsPerRow) {
         const rowLanguages = languageData.slice(i, i + colsPerRow);
         const rowIndex = Math.floor(i / colsPerRow);
@@ -25876,21 +25876,23 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
             const color = styleConfig.colors[colorIndex];
             rowStyle = ` style="color: ${color}"`;
         }
-        const cells = rowLanguages
-            .map(({ language, percentage }) => `<td${rowStyle}><strong>${language}</strong> ${percentage}%</td>`)
-            .join('');
-        // Fill empty cells if row is not complete
-        const emptyCells = '<td></td>'.repeat(colsPerRow - rowLanguages.length);
-        rows.push(`  <tr>${cells}${emptyCells}</tr>`);
+        // Format each language with consistent width (20 characters per column)
+        const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
+            const text = `${language} ${percentage}%`;
+            return `<span${rowStyle}>${text.padEnd(20)}</span>`;
+        });
+        // Fill remaining columns with spaces if row is not complete
+        while (formattedLanguages.length < colsPerRow) {
+            formattedLanguages.push('<span>' + ''.padEnd(20) + '</span>');
+        }
+        rows.push(formattedLanguages.join(''));
     }
-    const tableRows = rows.join('\n');
-    const footerText = `<em>Based on ${totalRepos} repositories for ${displayName} (${username})</em>`;
-    // Generate responsive HTML table
-    const htmlOutput = `<table>
-${tableRows}
-</table>
-
-${footerText}`;
+    const statsLines = rows.join('\n');
+    const footerText = `\n<em>Based on ${totalRepos} repositories for ${displayName} (${username})</em>`;
+    // Generate monospace formatted output
+    const htmlOutput = `<pre style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0; white-space: pre; overflow-x: auto;">
+${statsLines}${footerText}
+</pre>`;
     return htmlOutput;
 }
 /**
