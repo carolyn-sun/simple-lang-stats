@@ -42,22 +42,27 @@ function generateLanguageStatsHTML(
         rowStyle = ` style="color: ${color}"`;
       }
       
-      // Format each language with consistent width (20 characters per column)
+      // Format each language as table cell with fixed width
       const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
         const text = `${language} ${percentage}%`;
-        return `<span${rowStyle}>${text.padEnd(20)}</span>`;
+        return `<span${rowStyle} style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</span>`;
       });
       
-      rows.push(formattedLanguages.join(''));
+      // Fill remaining columns if row is not complete
+      while (formattedLanguages.length < colsPerRow) {
+        formattedLanguages.push('<span style="display: inline-block; width: 33.33%;"></span>');
+      }
+      
+      rows.push(`<div style="width: 100%;">${formattedLanguages.join('')}</div>`);
     }
     
-    const statsLines = rows.join('<br>\n');
-    const footerText = `<br><br>Based on ${totalRepos} repositories for ${displayName} (${username})`;
+    const statsLines = rows.join('\n');
+    const footerText = `\n<div style="margin-top: 8px;">Based on ${totalRepos} repositories for ${displayName} (${username})</div>`;
     
-    // Generate clean monospace formatted output using p tag
-    const htmlOutput = `<p style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0;">
+    // Generate table-like aligned output using CSS
+    const htmlOutput = `<div style="font-size: 1em; margin: 0;">
 ${statsLines}${footerText}
-</p>`;  return htmlOutput;
+</div>`;  return htmlOutput;
 }
 
 /**
