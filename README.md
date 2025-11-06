@@ -5,11 +5,12 @@
 ## Project Language Statistics
 
 <!-- simple-lang-stats -->
-<p style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0;">
-<span style="color: #3572A5">TypeScript 57.02%   </span><span style="color: #3572A5">JavaScript 15.32%   </span><span style="color: #3572A5">Shell 11.38%        </span><br>
-<span style="color: #f1e05a">V 5.5%              </span><span style="color: #f1e05a">Ruby 3.99%          </span><span style="color: #f1e05a">CSS 3.84%           </span><br>
-<span style="color: #e34c26">MDX 2.71%           </span><span style="color: #e34c26">PowerShell 0.23%    </span><br><br>Based on 7 repositories for Carolyn Sun (carolyn-sun)
-</p>
+<div style="font-size: 1em; margin: 0;">
+<div style="width: 100%;"><span style="color: #3572A5" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">TypeScript 57.21%</span><span style="color: #3572A5" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">JavaScript 15.25%</span><span style="color: #3572A5" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Shell 11.33%</span></div>
+<div style="width: 100%;"><span style="color: #f1e05a" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">V 5.47%</span><span style="color: #f1e05a" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Ruby 3.97%</span><span style="color: #f1e05a" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">CSS 3.83%</span></div>
+<div style="width: 100%;"><span style="color: #e34c26" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">MDX 2.7%</span><span style="color: #e34c26" style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">PowerShell 0.23%</span><span style="display: inline-block; width: 33.33%;"></span></div>
+<div style="margin-top: 8px;">Based on 7 repositories for Carolyn Sun (carolyn-sun)</div>
+</div>
 <!-- /simple-lang-stats -->
 
 ## Quick Start
