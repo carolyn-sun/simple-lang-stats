@@ -42,27 +42,27 @@ function generateLanguageStatsHTML(
         rowStyle = ` style="color: ${color}"`;
       }
       
-      // Format each language as table cell with fixed width
-      const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
+      // Format each language as table cell
+      const cells = rowLanguages.map(({ language, percentage }) => {
         const text = `${language} ${percentage}%`;
-        return `<span${rowStyle} style="display: inline-block; width: 33.33%; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</span>`;
+        return `<td${rowStyle} style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</td>`;
       });
       
       // Fill remaining columns if row is not complete
-      while (formattedLanguages.length < colsPerRow) {
-        formattedLanguages.push('<span style="display: inline-block; width: 33.33%;"></span>');
+      while (cells.length < colsPerRow) {
+        cells.push('<td style="padding: 0; border: none;"></td>');
       }
       
-      rows.push(`<div style="width: 100%;">${formattedLanguages.join('')}</div>`);
+      rows.push(`<tr>${cells.join('')}</tr>`);
     }
     
-    const statsLines = rows.join('\n');
-    const footerText = `\n<div style="margin-top: 8px;">Based on ${totalRepos} repositories for ${displayName} (${username})</div>`;
+    const tableRows = rows.join('\n');
+    const footerText = `\n<tr><td colspan="3" style="padding-top: 8px; border: none; font-family: inherit;">Based on ${totalRepos} repositories for ${displayName} (${username})</td></tr>`;
     
-    // Generate table-like aligned output using CSS
-    const htmlOutput = `<div style="font-size: 1em; margin: 0;">
-${statsLines}${footerText}
-</div>`;  return htmlOutput;
+    // Generate clean table with no borders or spacing
+    const htmlOutput = `<table style="border-collapse: collapse; border: none; margin: 0; padding: 0; font-size: 1em;">
+${tableRows}${footerText}
+</table>`;  return htmlOutput;
 }
 
 /**
