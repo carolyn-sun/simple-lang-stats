@@ -4,10 +4,10 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
 
 <!-- simple-lang-stats -->
 ```
-58.51% JavaScript
-33.19% Fluent
+58.55% JavaScript
+33.21% Fluent
 4.36% CSS
-1.41% TypeScript
+1.33% TypeScript
 1.13% MDX
 0.75% HTML
 0.45% Swift
@@ -20,7 +20,7 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
 
 ## Quick Start
 
-Set a `GitHub_TOKEN` secret in your repository settings in case you reach the API rate limit. `Repo` scope is sufficient.
+Set a `PAT` secret in your repository settings in case you reach the API rate limit. `Repo` scope is sufficient.
 
 Add this marker to your README.md where you want the language statistics to appear:
 
@@ -51,7 +51,7 @@ jobs:
       - name: Update Language Stats
         uses: carolyn-sun/simple-lang-stats@latest
         with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+          github-token: ${{ secrets.PAT }}
           username: ${{ github.repository_owner }}
           
       - name: Commit changes

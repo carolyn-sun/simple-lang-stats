@@ -31,7 +31,7 @@ function loadLocalEnv(): void {
         process.env[cleanKey] = value;
         
         // Convert to GitHub Actions input format
-        if (cleanKey.startsWith('INPUT_') || cleanKey === 'GITHUB_TOKEN') {
+        if (cleanKey.startsWith('INPUT_') || cleanKey === 'PAT') {
           const inputKey = cleanKey.startsWith('INPUT_') ? cleanKey : `INPUT_${cleanKey.replace(/[^A-Z0-9_]/gi, '_').toUpperCase()}`;
           process.env[inputKey] = value;
         }
@@ -152,14 +152,14 @@ export async function run(): Promise<void> {
     loadLocalEnv();
     
     // Get inputs with environment variable fallback
-    const githubToken = getInputWithEnvFallback('github-token', { required: true });
+    const githubToken = getInputWithEnvFallback('PAT', { required: true });
     const username = getInputWithEnvFallback('username', { required: true });
     const readmePath = getInputWithEnvFallback('readme-path') || 'README.md';
     
-    // For local testing, also try GITHUB_TOKEN directly
-    const token = githubToken || process.env.GITHUB_TOKEN || '';
+    // For local testing, also try PAT directly
+    const token = githubToken || process.env.PAT || '';
     if (!token) {
-      throw new Error('GitHub token is required. Set GITHUB_TOKEN in .env file or provide github-token input.');
+      throw new Error('GitHub token is required. Set PAT in .env file or provide PAT input.');
     }
     
     console.log(`🎯 Generating language statistics for user: ${username}`);
