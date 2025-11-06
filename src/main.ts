@@ -233,9 +233,20 @@ export async function run(): Promise<void> {
     
     // Set outputs (for GitHub Actions)
     try {
-      core.setOutput('stats-html', statsHTML);
-      core.setOutput('languages-count', languageData.length.toString());
-      core.setOutput('repositories-count', totalRepos.toString());
+      // Use environment files instead of deprecated set-output
+      const outputs = [
+        `stats-html=${statsHTML}`,
+        `languages-count=${languageData.length}`,
+        `repositories-count=${totalRepos}`
+      ];
+      
+      // Write to GitHub Actions output file if available
+      if (process.env.GITHUB_OUTPUT) {
+        const fs = require('fs');
+        outputs.forEach(output => {
+          fs.appendFileSync(process.env.GITHUB_OUTPUT, `${output}\n`);
+        });
+      }
     } catch (e) {
       // Ignore errors if not in GitHub Actions environment
       console.log('📤 Outputs (for GitHub Actions):');
