@@ -28,12 +28,10 @@ jobs:
         run: npm run build
         
       - name: Create Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        uses: softprops/action-gh-release@v1
         with:
-          tag_name: ${{ github.ref }}
-          release_name: Release ${{ github.ref }}
+          tag_name: ${{ github.ref_name }}
+          name: Release ${{ github.ref_name }}
           body: |
             ## Changes
             - Simple Language Stats GitHub Action
@@ -42,13 +40,15 @@ jobs:
             ## Usage
             ```yaml
             - name: Update Language Stats
-              uses: carolyn-sun/simple-lang-stats@${{ github.ref }}
+              uses: carolyn-sun/simple-lang-stats@${{ github.ref_name }}
               with:
                 PAT: ${{ secrets.PAT }}
                 username: ${{ github.repository_owner }}
             ```
           draft: false
           prerelease: false
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
       - name: Update latest tag
         run: |
