@@ -1,0 +1,31 @@
+name: 'Simple Language Stats'
+description: 'Generate GitHub language statistics and update README'
+author: 'carolyn-sun'
+branding:
+  icon: 'bar-chart-2'
+  color: 'blue'
+
+inputs:
+  github-token:
+    description: 'GitHub token for API access'
+    required: true
+  username:
+    description: 'GitHub username to generate stats for'
+    required: false
+    default: ''
+  style:
+    description: 'Style theme for the output'
+    required: false
+    default: 'default'
+  night-mode:
+    description: 'Force dark mode'
+    required: false
+    default: 'false'
+  readme-path:
+    description: 'Path to README file to update'
+    required: false
+    default: 'README.md'
+
+runs:
+  using: 'node20'
+  main: 'dist/index.js'

@@ -1,26 +1,29 @@
 {
   "name": "simple-lang-stats",
-  "version": "1.0.0",
-  "description": "A Cloudflare Worker to get most used programming languages for a GitHub user",
-  "main": "src/index.ts",
+  "version": "2.0.0",
+  "description": "A GitHub Action to generate language statistics and update README",
+  "main": "dist/index.js",
   "scripts": {
-    "dev": "wrangler dev",
-    "deploy": "wrangler deploy",
-    "start": "wrangler dev",
-    "build": "tsc",
-    "test": "echo \"使用 npm run dev 启动本地服务器进行测试\"",
-    "type-check": "tsc --noEmit"
+    "build": "ncc build src/main.ts -o dist --source-map",
+    "package": "npm run build",
+    "test": "npm run build",
+    "all": "npm run build"
+  },
+  "dependencies": {
+    "@actions/core": "^1.10.1",
+    "@actions/github": "^5.1.1"
   },
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20231025.0",
-    "typescript": "^5.0.0",
-    "wrangler": "^4.45.4"
+    "@types/node": "^20.8.0",
+    "@vercel/ncc": "^0.38.0",
+    "typescript": "^5.0.0"
   },
   "keywords": [
-    "cloudflare-worker",
+    "github-action",
     "github-api",
     "programming-languages",
-    "statistics"
+    "statistics",
+    "readme-generator"
   ],
   "author": "carolyn-sun",
   "license": "MIT"

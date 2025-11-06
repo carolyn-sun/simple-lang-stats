@@ -1,9 +1,14 @@
 node_modules/
-dist/
-.wrangler/
+lib/
 *.log
 .env
 .env.local
 .DS_Store
 .vscode/
 .idea/
+*.swp
+*.swo
+Thumbs.db
+
+# Keep dist/ for GitHub Actions distribution
+!dist/
