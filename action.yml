@@ -6,8 +6,8 @@ branding:
   color: 'blue'
 
 inputs:
-  github-token:
-    description: 'GitHub token for API access'
+  PAT:
+    description: 'GitHub Personal Access Token for API access'
     required: true
   username:
     description: 'GitHub username to generate stats for'
