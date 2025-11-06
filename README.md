@@ -1,6 +1,6 @@
 # Simple Language Stats
 
-Enjoy simplicity. A GitHub Action that automatically generates and updates language statistics in your README.
+Enjoy simplicity. A GitHub Action that automatically generates and updates language statistics in your README profile.
 
 <!-- simple-lang-stats -->
 ```
@@ -18,7 +18,7 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
 *Based on 12 repositories for Carolyn Sun (carolyn-sun)*<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)
 <!-- /simple-lang-stats -->
 
-## Quick Start
+## Usage
 
 Set a `PAT` secret in your repository settings in case you reach the API rate limit. `Repo` scope is sufficient.
 
