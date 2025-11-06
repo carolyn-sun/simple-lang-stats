@@ -25879,20 +25879,16 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
         // Format each language with consistent width (20 characters per column)
         const formattedLanguages = rowLanguages.map(({ language, percentage }) => {
             const text = `${language} ${percentage}%`;
-            return `<span${rowStyle}>${text.padEnd(20)}</span>`;
+            return `<code${rowStyle}>${text.padEnd(20)}</code>`;
         });
-        // Fill remaining columns with spaces if row is not complete
-        while (formattedLanguages.length < colsPerRow) {
-            formattedLanguages.push('<span>' + ''.padEnd(20) + '</span>');
-        }
         rows.push(formattedLanguages.join(''));
     }
-    const statsLines = rows.join('\n');
-    const footerText = `\n<em>Based on ${totalRepos} repositories for ${displayName} (${username})</em>`;
-    // Generate monospace formatted output
-    const htmlOutput = `<pre style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em; margin: 0; white-space: pre; overflow-x: auto;">
+    const statsLines = rows.join('<br>\n');
+    const footerText = `<br><br>Based on ${totalRepos} repositories for ${displayName} (${username})`;
+    // Generate clean monospace formatted output without background
+    const htmlOutput = `<div style="font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace; font-size: 1em;">
 ${statsLines}${footerText}
-</pre>`;
+</div>`;
     return htmlOutput;
 }
 /**
