@@ -10,7 +10,7 @@ Swift 0.45%         Shell 0.12%         V 0.05%
 Ruby 0.04%                                                  
 ```
 
-Based on 12 repositories for Carolyn Sun (carolyn-sun)
+Based on 7 repositories for Carolyn Sun (carolyn-sun)
 <!-- /simple-lang-stats -->
 
 ## Quick Start
