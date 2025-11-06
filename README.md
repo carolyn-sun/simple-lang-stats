@@ -4,18 +4,16 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
 
 <!-- simple-lang-stats -->
 ```
-58.51% JavaScript
-33.19% Fluent
-4.36% CSS
-1.41% TypeScript
-1.13% MDX
-0.75% HTML
-0.45% Swift
-0.12% Shell
-0.05% V
-0.04% Ruby
+55.47% TypeScript
+15.88% JavaScript
+11.79% Shell
+5.7% V
+4.13% Ruby
+3.98% CSS
+2.81% MDX
+0.24% PowerShell
 ```
-*Based on 12 repositories for Carolyn Sun (carolyn-sun)*<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)
+*Based on 7 repositories for Carolyn Sun (carolyn-sun)*<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)
 <!-- /simple-lang-stats -->
 
 ## Quick Start
