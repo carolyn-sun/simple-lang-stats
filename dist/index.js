@@ -25879,18 +25879,18 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
         // Format each language as table cell
         const cells = rowLanguages.map(({ language, percentage }) => {
             const text = `${language} ${percentage}%`;
-            return `<td${rowStyle} style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</td>`;
+            return `<td${rowStyle} style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">${text}</td>`;
         });
         // Fill remaining columns if row is not complete
         while (cells.length < colsPerRow) {
-            cells.push('<td style="padding: 0; border: none;"></td>');
+            cells.push('<td style="padding: 0; margin: 0; border: none; background: none;"></td>');
         }
-        rows.push(`<tr>${cells.join('')}</tr>`);
+        rows.push(`<tr style="border: none; background: none;">${cells.join('')}</tr>`);
     }
     const tableRows = rows.join('\n');
-    const footerText = `\n<tr><td colspan="3" style="padding-top: 8px; border: none; font-family: inherit;">Based on ${totalRepos} repositories for ${displayName} (${username})</td></tr>`;
-    // Generate clean table with no borders or spacing
-    const htmlOutput = `<table style="border-collapse: collapse; border: none; margin: 0; padding: 0; font-size: 1em;">
+    const footerText = `\n<tr style="border: none; background: none;"><td colspan="3" style="padding-top: 8px; border: none; background: none; font-family: inherit;">Based on ${totalRepos} repositories for ${displayName} (${username})</td></tr>`;
+    // Generate clean table with no borders, backgrounds, or spacing
+    const htmlOutput = `<table style="border-collapse: collapse; border: none; background: none; margin: 0; padding: 0; font-size: 1em; border-spacing: 0;">
 ${tableRows}${footerText}
 </table>`;
     return htmlOutput;

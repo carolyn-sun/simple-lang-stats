@@ -64,11 +64,11 @@ The action will automatically insert your language statistics between these mark
 Once the action runs, it will generate something like this in your README:
 
 <!-- simple-lang-stats -->
-<table style="border-collapse: collapse; border: none; margin: 0; padding: 0; font-size: 1em;">
-<tr><td style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">TypeScript 45.2%</td><td style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">JavaScript 23.1%</td><td style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Python 18.5%</td></tr>
-<tr><td style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Java 8.7%</td><td style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Go 3.2%</td><td style="padding: 0; border: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Shell 1.3%</td></tr>
+<table style="border-collapse: collapse; border: none; background: none; margin: 0; padding: 0; font-size: 1em; border-spacing: 0;">
+<tr style="border: none; background: none;"><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">TypeScript 45.2%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">JavaScript 23.1%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Python 18.5%</td></tr>
+<tr style="border: none; background: none;"><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Java 8.7%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Go 3.2%</td><td style="padding: 0; margin: 0; border: none; background: none; font-family: ui-monospace, SFMono-Regular, 'SF Mono', Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">Shell 1.3%</td></tr>
 
-<tr><td colspan="3" style="padding-top: 8px; border: none; font-family: inherit;">Based on 24 repositories for John Doe (johndoe)</td></tr>
+<tr style="border: none; background: none;"><td colspan="3" style="padding-top: 8px; border: none; background: none; font-family: inherit;">Based on 24 repositories for John Doe (johndoe)</td></tr>
 </table>
 <!-- /simple-lang-stats -->
 
