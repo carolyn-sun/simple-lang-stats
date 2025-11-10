@@ -34,7 +34,7 @@ The action will automatically insert your language statistics between these mark
 Then, add it to your workflow file (e.g., `.github/workflows/update-stats.yml`):
 
 ```yaml
-name: Update Language Stats
+name: Update language stats
 
 on:
   push:

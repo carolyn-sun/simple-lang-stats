@@ -39,7 +39,7 @@ jobs:
             
             ## Usage
             ```yaml
-            - name: Update Language Stats
+            - name: Update language stats
               uses: carolyn-sun/simple-lang-stats@${{ github.ref_name }}
               with:
                 PAT: your_pat_here
