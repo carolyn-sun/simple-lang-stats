@@ -31,7 +31,7 @@ jobs:
       - name: Build action
         run: npm run build
         
-      - name: Update Language Stats
+      - name: Update language stats
         uses: ./  # Use the local action for testing
         with:
           PAT: ${{ secrets.PAT }}
