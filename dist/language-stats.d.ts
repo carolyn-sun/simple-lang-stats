@@ -8,7 +8,7 @@ interface LanguageStats {
 }
 /**
  * Calculate precise percentages ensuring they sum close to 100%
- * Based on GitHub's algorithm for language statistics
+ * Algorithm improved based on github-readme-stats implementation
  */
 export declare function calculateLanguagePercentages(languageStats: LanguageStats, totalSize: number): {
     language: string;
@@ -17,7 +17,8 @@ export declare function calculateLanguagePercentages(languageStats: LanguageStat
 }[];
 /**
  * Fetch top languages using GitHub's GraphQL API
- * Based on GitHub's algorithm for language statistics
+ * Algorithm based on github-readme-stats project:
+ * ranking_index = (byte_count ^ size_weight) * (repo_count ^ count_weight)
  */
 export declare function fetchTopLanguages(username: string, githubToken?: string, excludeRepos?: string[], sizeWeight?: number, countWeight?: number): Promise<{
     languages: LanguageStats;

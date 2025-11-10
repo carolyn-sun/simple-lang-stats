@@ -50,31 +50,46 @@ export function calculateLanguagePercentages(languageStats: LanguageStats, total
     percentage: (data.size / totalSize) * 100
   }));
   
-  // Round to 2 decimal places but keep track of remainders for adjustment
-  const roundedData = rawPercentages.map(item => ({
-    ...item,
-    rounded: parseFloat(item.percentage.toFixed(2)),
-    remainder: item.percentage - parseFloat(item.percentage.toFixed(2))
-  }));
+  // Use ceiling instead of rounding to ensure small percentages are not zero
+  const roundedData = rawPercentages.map(item => {
+    // Calculate ceiling to 2 decimal places: Math.ceil(percentage * 100) / 100
+    const ceilingValue = Math.ceil(item.percentage * 100) / 100;
+    return {
+      ...item,
+      rounded: parseFloat(ceilingValue.toFixed(2)),
+      remainder: item.percentage - parseFloat(item.percentage.toFixed(2))
+    };
+  });
   
-  // Calculate the difference between 100% and sum of rounded percentages
+  // Calculate the difference between 100% and sum of ceiling percentages
   const sumRounded = roundedData.reduce((sum, item) => sum + item.rounded, 0);
   const difference = parseFloat((100 - sumRounded).toFixed(2));
   
-  // If there's a significant difference, adjust the largest remainders
-  if (Math.abs(difference) > 0.01) {
-    // Sort by remainder to adjust those with largest remainders first
-    const sortedByRemainder = [...roundedData].sort((a, b) => b.remainder - a.remainder);
+  // When using ceiling, sum will likely exceed 100%, so we need to adjust downward
+  // while preserving the minimum 0.01% for very small languages
+  if (Math.abs(difference) > 0.005) {
+    // Sort by actual percentage (descending) to adjust largest languages first
+    const sortedBySize = [...roundedData].sort((a, b) => {
+      return b.percentage - a.percentage;
+    });
     
     let remainingDifference = difference;
-    const increment = difference > 0 ? 0.01 : -0.01;
+    const increment = 0.01;
     
-    for (const item of sortedByRemainder) {
-      if (Math.abs(remainingDifference) < 0.001) break;
+    // If sum exceeds 100% (difference < 0), reduce from largest languages
+    // If sum is less than 100% (difference > 0), add to largest languages
+    for (const item of sortedBySize) {
+      if (Math.abs(remainingDifference) < 0.005) break;
       
-      const adjustment = Math.sign(remainingDifference) * 0.01;
-      item.rounded = parseFloat((item.rounded + adjustment).toFixed(2));
-      remainingDifference = parseFloat((remainingDifference - adjustment).toFixed(2));
+      if (remainingDifference > 0) {
+        // Sum is less than 100%, add to this language
+        item.rounded = parseFloat((item.rounded + increment).toFixed(2));
+        remainingDifference = parseFloat((remainingDifference - increment).toFixed(2));
+      } else if (remainingDifference < 0 && item.rounded > increment) {
+        // Sum exceeds 100%, reduce this language (but keep minimum 0.01%)
+        item.rounded = parseFloat((item.rounded - increment).toFixed(2));
+        remainingDifference = parseFloat((remainingDifference + increment).toFixed(2));
+      }
     }
   }
   
@@ -89,7 +104,8 @@ export function calculateLanguagePercentages(languageStats: LanguageStats, total
 
 /**
  * Fetch top languages using GitHub's GraphQL API
- * Based on GitHub's algorithm for language statistics
+ * Algorithm based on github-readme-stats project:
+ * ranking_index = (byte_count ^ size_weight) * (repo_count ^ count_weight)
  */
 export async function fetchTopLanguages(
   username: string,
@@ -200,7 +216,8 @@ export async function fetchTopLanguages(
       });
     });
 
-  // Apply size and count weights to calculate final scores
+  // Apply size and count weights using github-readme-stats algorithm
+  // ranking_index = (byte_count ^ size_weight) * (repo_count ^ count_weight)
   Object.keys(languageStats).forEach((name) => {
     const lang = languageStats[name];
     if (lang) {
