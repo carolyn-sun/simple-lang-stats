@@ -25653,7 +25653,7 @@ exports.calculateLanguagePercentages = calculateLanguagePercentages;
 exports.fetchTopLanguages = fetchTopLanguages;
 /**
  * Calculate precise percentages ensuring they sum close to 100%
- * Algorithm improved based on github-readme-stats implementation
+ * Based on GitHub's algorithm for language statistics
  */
 function calculateLanguagePercentages(languageStats, totalSize) {
     const entries = Object.entries(languageStats).sort(([, a], [, b]) => b.size - a.size);
@@ -25663,7 +25663,7 @@ function calculateLanguagePercentages(languageStats, totalSize) {
         size: data.size,
         percentage: (data.size / totalSize) * 100
     }));
-    // Use ceiling (向上取值) instead of rounding to ensure small percentages are not zero
+    // Use ceiling instead of rounding to ensure small percentages are not zero
     const roundedData = rawPercentages.map(item => {
         // Calculate ceiling to 2 decimal places: Math.ceil(percentage * 100) / 100
         const ceilingValue = Math.ceil(item.percentage * 100) / 100;
@@ -25933,7 +25933,7 @@ function generateLanguageStatsHTML(languageData, username, displayName, totalRep
     // Join with line breaks for single column display
     const statsContent = languageItems.join('\n');
     // Generate footer content outside code block with br tags for spacing control
-    const footerText = `*Based on ${totalRepos} repositories for ${displayName} (${username})<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*`;
+    const footerText = `*Based on ${totalRepos} non-forked repositories for ${displayName} (${username})<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*`;
     // Generate single column code block format with footer outside
     const output = `\`\`\`
 ${statsContent}

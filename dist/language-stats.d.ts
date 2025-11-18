@@ -8,7 +8,7 @@ interface LanguageStats {
 }
 /**
  * Calculate precise percentages ensuring they sum close to 100%
- * Algorithm improved based on github-readme-stats implementation
+ * Based on GitHub's algorithm for language statistics
  */
 export declare function calculateLanguagePercentages(languageStats: LanguageStats, totalSize: number): {
     language: string;
