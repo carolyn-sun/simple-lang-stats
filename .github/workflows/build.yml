@@ -10,7 +10,10 @@ on:
     branches: [ main ]
     paths:
       - 'src/**'
-      - '.github/workflows/build.yml'
+      
+concurrency:
+  group: build-and-update-stats-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
