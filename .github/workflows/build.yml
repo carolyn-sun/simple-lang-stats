@@ -10,10 +10,13 @@ on:
     branches: [ main ]
     paths:
       - 'src/**'
+      - '.github/workflows/build.yml'
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     
     steps:
       - name: Checkout
@@ -30,3 +33,15 @@ jobs:
         
       - name: Build
         run: npm run build
+        
+      - name: Commit and push build artifacts
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add .
+          if ! git diff --staged --quiet; then
+            git commit -m "Build: Update compiled files [skip ci]"
+            git push
+          else
+            echo "No changes to commit"
+          fi
