@@ -1,0 +1,23 @@
+name: Post Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  update-latest:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+          
+      - name: Update latest tag
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git tag -f latest
+          git push origin latest --force
