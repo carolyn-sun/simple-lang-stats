@@ -25924,11 +25924,14 @@ function getInputWithEnvFallback(name, options = {}) {
 function generateLanguageStatsHTML(languageData, username, displayName, totalRepos) {
     // Find the maximum width needed for percentage display (including the % symbol)
     const maxPercentageWidth = Math.max(...languageData.map(({ percentage }) => `${percentage}%`.length));
-    // Create single column layout with aligned percentages
+    // Create single column layout with aligned percentages and bars
+    const barLength = 5;
     const languageItems = languageData.map(({ language, percentage }) => {
         const percentageText = `${percentage}%`;
         const paddedPercentage = percentageText.padStart(maxPercentageWidth);
-        return `${paddedPercentage} ${language}`;
+        const charCount = Math.max(1, Math.round((percentage / 100) * barLength));
+        const bar = '='.repeat(charCount).padEnd(barLength);
+        return `${paddedPercentage} ${bar} ${language}`;
     });
     // Join with line breaks for single column display
     const statsContent = languageItems.join('\n');
