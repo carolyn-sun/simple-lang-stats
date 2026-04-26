@@ -10,10 +10,10 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
   7.8% =     Python
  6.13% =     TeX
  3.54% =     CSS
- 3.14% =     Astro
+ 3.15% =     Astro
  1.42% =     MDX
  1.36% =     BibTeX Style
- 0.91% =     HTML
+  0.9% =     HTML
   0.3% =     Swift
  0.24% =     Julia
   0.2% =     Shell
