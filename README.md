@@ -4,15 +4,15 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
 
 <!-- simple-lang-stats -->
 ```
-36.27% ==    JavaScript
-23.91% =     Fluent
-14.83% =     TypeScript
- 7.68% =     Python
- 6.04% =     TeX
- 3.49% =     CSS
- 3.21% =     Astro
-  1.4% =     MDX
- 1.34% =     BibTeX Style
+35.94% ==    JavaScript
+23.69% =     Fluent
+14.92% =     TypeScript
+ 7.61% =     Python
+ 5.98% =     TeX
+ 3.86% =     Astro
+ 3.46% =     CSS
+ 1.38% =     MDX
+ 1.33% =     BibTeX Style
  0.88% =     HTML
  0.29% =     Swift
  0.24% =     Julia
@@ -24,7 +24,7 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
  0.01% =     Perl
  0.01% =     Batchfile
 ```
-*Based on 20 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*
+*Based on 21 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*
 <!-- /simple-lang-stats -->
 
 ## Usage
