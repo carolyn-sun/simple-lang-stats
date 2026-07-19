@@ -3,20 +3,31 @@
 Enjoy simplicity. A GitHub Action that automatically generates and updates language statistics in your README profile.
 
 <!-- simple-lang-stats -->
+
 ```
-58.47% JavaScript
-33.16% Fluent
- 4.39% CSS
-  1.4% TypeScript
- 1.14% MDX
- 0.75% HTML
- 0.45% Swift
- 0.13% Shell
- 0.06% V
- 0.04% Ruby
- 0.01% PowerShell
+37.33% ==    JavaScript
+ 24.2% =     Fluent
+14.12% =     TypeScript
+ 7.76% =     Python
+  6.1% =     TeX
+ 3.62% =     Astro
+ 2.34% =     CSS
+ 1.48% =     MDX
+ 1.36% =     BibTeX Style
+  0.9% =     HTML
+ 0.24% =     Julia
+ 0.19% =     Shell
+ 0.13% =     HCL
+ 0.09% =     Typst
+ 0.05% =     XSLT
+ 0.04% =     Ruby
+ 0.03% =     PowerShell
+ 0.01% =     Perl
+ 0.01% =     Batchfile
 ```
-*Based on 12 repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*
+
+_Based on 20 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)_
+
 <!-- /simple-lang-stats -->
 
 ## Usage
@@ -40,27 +51,27 @@ name: Update language stats
 on:
   push:
   schedule:
-    - cron: '0 */48 * * *'  # Run every 48 hours
-  workflow_dispatch:  # Allow manual trigger
+    - cron: "0 */48 * * *" # Run every 48 hours
+  workflow_dispatch: # Allow manual trigger
 
 jobs:
   update-stats:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Allow writing to repository contents
-      
+      contents: write # Allow writing to repository contents
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-        
+
       - name: Update Language Stats
         uses: carolyn-sun/simple-lang-stats@latest
         with:
           PAT: ${{ secrets.PAT }}
           username: ${{ github.repository_owner }}
-          
+
       - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
