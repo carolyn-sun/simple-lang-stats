@@ -3,6 +3,7 @@
 Enjoy simplicity. A GitHub Action that automatically generates and updates language statistics in your README profile.
 
 <!-- simple-lang-stats -->
+
 ```
 37.33% ==    JavaScript
  24.2% =     Fluent
@@ -24,7 +25,9 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
  0.01% =     Perl
  0.01% =     Batchfile
 ```
-*Based on 20 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*
+
+_Based on 20 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)_
+
 <!-- /simple-lang-stats -->
 
 ## Usage
@@ -48,27 +51,27 @@ name: Update language stats
 on:
   push:
   schedule:
-    - cron: '0 */48 * * *'  # Run every 48 hours
-  workflow_dispatch:  # Allow manual trigger
+    - cron: "0 */48 * * *" # Run every 48 hours
+  workflow_dispatch: # Allow manual trigger
 
 jobs:
   update-stats:
     runs-on: ubuntu-latest
     permissions:
-      contents: write  # Allow writing to repository contents
-      
+      contents: write # Allow writing to repository contents
+
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 # v7
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-        
+
       - name: Update Language Stats
         uses: carolyn-sun/simple-lang-stats@latest
         with:
           PAT: ${{ secrets.PAT }}
           username: ${{ github.repository_owner }}
-          
+
       - name: Commit changes
         run: |
           git config --local user.email "action@github.com"
