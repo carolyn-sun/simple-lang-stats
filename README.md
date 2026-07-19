@@ -3,7 +3,6 @@
 Enjoy simplicity. A GitHub Action that automatically generates and updates language statistics in your README profile.
 
 <!-- simple-lang-stats -->
-
 ```
 37.33% ==    JavaScript
  24.2% =     Fluent
@@ -25,9 +24,7 @@ Enjoy simplicity. A GitHub Action that automatically generates and updates langu
  0.01% =     Perl
  0.01% =     Batchfile
 ```
-
-_Based on 20 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)_
-
+*Based on 20 non-forked repositories for Carolyn Sun (carolyn-sun)<br/>Powered by [carolyn-sun/simple-lang-stats](https://github.com/carolyn-sun/simple-lang-stats)*
 <!-- /simple-lang-stats -->
 
 ## Usage
